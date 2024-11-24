@@ -1,0 +1,344 @@
+# Test Product CRUD 
+# ----------------------------------------------------
+mutation {
+  createProduct(createProductInput: {
+    productName: "Test Product2"
+    productvendor: "Test Vendor2"
+    productDescription: "This is a test product."
+    quantityInStock: 100
+    buyPrice: 50
+    msrp: 100
+  }) {
+    productId
+    productName
+    productvendor
+    productDescription
+    quantityInStock
+    buyPrice
+    msrp
+  }
+}
+
+#--------------------------------------------------------
+mutation {
+  updateProduct(updateProductInput: {
+    productId: "PUT_YOUR_PRODUCT_ID_HERE" # Required field, replace with an actual product ID
+    productName: "Updated Test Product"
+    productvendor: "Updated Test Vendor"
+    productDescription: "This is an updated test product."
+    quantityInStock: 200
+    buyPrice: 60
+    msrp: 120
+  }) {
+    productId
+    productName
+    productvendor
+    productDescription
+    quantityInStock
+    buyPrice
+    msrp
+  }
+}
+
+#--------------------------------------------------------
+query {
+  products {
+    productId
+    productName
+    productvendor
+    productDescription
+    quantityInStock
+    buyPrice
+    msrp
+  }
+}
+#--------------------------------------------------------
+
+query GetProduct {
+  product(id: "d4744dc9-1ef7-4223-81a9-b2b726d5e785"){
+    productId
+    productName
+    productvendor
+    productDescription
+    quantityInStock
+    buyPrice
+    msrp
+  }
+}
+
+#-----------------------------------------------------------
+
+// CreateCustomer
+mutation {
+  createCustomer(createCustomerInput: {
+    customerName: "John Doe",
+    cemail: "john.doe@example.com",
+    phone: "555-123-4567",
+    address: "123 Main St",
+    city: "Anytown",
+    postalCode: "12345",
+    country: "USA"
+  }) {
+    customerId
+    customerName
+    cemail
+    phone
+    address
+    city
+    postalCode
+    country
+    creationDate
+    modificationDate
+  }
+}
+
+// GetCustomer
+query {
+  customer(id: "REPLACE_WITH_CUSTOMER_ID") {
+    customerId
+    customerName
+    cemail
+    phone
+    address
+    city
+    postalCode
+    country
+    creationDate
+    modificationDate
+    orders {
+      orderId
+    }
+  }
+}
+
+
+// GetCustomers (list)
+query {
+  customers {
+    customerId
+    customerName
+    cemail
+  }
+}
+
+// UpdateCustomer
+mutation {
+  updateCustomer(updateCustomerInput: {
+    customerId: "a43894e9-e0e8-45a8-9ea0-9dd72e9ebceb",
+    customerName: "Jane Doe",
+    cemail: "jane.doe@example.com",
+    phone: "555-987-6543",
+    address: "456 Oak Ave",
+    city: "Springfield",
+    postalCode: "67890",
+    country: "USA"
+  }) {
+    customerId
+    customerName
+    cemail
+    phone
+    address
+    city
+    postalCode
+    country
+    creationDate
+    modificationDate
+  }
+}
+
+// RemoveCustomer
+mutation {
+  removeCustomer(id: "REPLACE_WITH_CUSTOMER_ID") {
+    customerId
+    customerName
+    cemail
+    phone
+    address
+    city
+    postalCode
+    country
+    creationDate
+    modificationDate
+  }
+}
+
+#------------------------------------------------------------------
+
+//Create Order
+mutation {
+  createOrder(createOrderInput: {
+    customerId: "0f36cdac-1367-4c27-91ee-d464d48a54e3",
+    shippingDate: "2024-11-20T09:53:00Z",
+    status: "Pending",
+    comments: "First order",
+    total: 150,
+    paid: false,
+    orderItems: [
+      {
+        orderItemId: "1",
+        productId: "123",
+        productName: "Product A",
+        quantity: 2
+      },
+      {
+        orderItemId: "2",
+        productId: "124",
+        productName: "Product B",
+        quantity: 1
+      }
+    ]
+  }) {
+    orderId
+    orderDate
+    customerId
+    shippingDate
+    status
+    comments
+    total
+    paid
+    orderItems {
+      orderItemId
+      productId
+      productName
+      quantity
+    }
+  }
+}
+
+//update order
+mutation {
+  updateOrder(updateOrderInput: {
+    orderId: "6c6d8b65-eb0b-4c26-ad3d-04aa2b3697d3",
+    customerId: "0f36cdac-1367-4c27-91ee-d464d48a54e3",
+    shippingDate: "2024-11-21T09:53:00Z",
+    status: "Shipped",
+    comments: "Updated order",
+    total: 200,
+    paid: true,
+    orderItems: [
+      {
+        orderItemId: "e7ffa7cc-4369-4962-bdc1-f9feb94821f7",
+        productId: "d4744dc9-1ef7-4223-81a9-b2b726d5e785",
+        productName: "Product A",
+        quantity: 3
+      },
+      {
+        orderItemId: "e40c4ee0-c0dc-42a2-9eb0-4e36c7c86b22",
+        productId: "4a5e4a61-fe23-4cee-a977-cfd912464590",
+        productName: "Product B",
+        quantity: 2
+      }
+    ]
+  }) {
+    orderId
+    orderDate
+    customerId
+    shippingDate
+    status
+    comments
+    total
+    paid
+    orderItems {
+      orderItemId
+      productId
+      productName
+      quantity
+    }
+  }
+}
+
+//get all order
+query {
+  orders {
+    orderId
+    orderDate
+    customerId
+    shippingDate
+    status
+    comments
+    total
+    paid
+    orderItems {
+      orderItemId
+      productId
+      productName
+      quantity
+    }
+  }
+}
+
+//get order by id
+query {
+  order(id: "0f36cdac-1367-4c27-91ee-d464d48a54e3") {
+    orderId
+    orderDate
+    customerId
+    shippingDate
+    status
+    comments
+    total
+    paid
+    orderItems {
+      orderItemId
+      productId
+      productName
+      quantity
+    }
+  }
+}
+
+//delete order
+mutation {
+  removeOrder(id: "0f36cdac-1367-4c27-91ee-d464d48a54e3") {
+    orderId
+    orderDate
+    customerId
+    shippingDate
+    status
+    comments
+    total
+    paid
+    orderItems {
+      orderItemId
+      productId
+      productName
+      quantity
+    }
+  }
+}
+
+
+//---------------
+resolver acts as a bridge between the GraphQL API and the underlying database logic provided 
+by the CustomersService. It defines how GraphQL queries and mutations are mapped to service
+methods and what data is returned.
+
+async update(id: string, updateOrderInput: UpdateOrderInput) {
+    const { orderItems, ...orderFields } = updateOrderInput;
+
+    // Extract orderItemIds from the incoming orderItems
+    const incomingOrderItemIds = orderItems.map(item => item.orderItemId);
+
+
+    return this.prisma.order.update({
+      where: { orderId: id },
+      data: {
+        ...orderFields,
+        orderItems: {
+          upsert: orderItems.map((item) => ({
+            where: { orderItemId: item.orderItemId },
+            create: item,
+            update: item,
+          })),
+          deleteMany: { // Add this deleteMany block
+            NOT: {
+              orderItemId: {
+                in: incomingOrderItemIds,
+              },
+            },
+          },
+        },
+      },
+      include: { orderItems: true },
+    });
+  }

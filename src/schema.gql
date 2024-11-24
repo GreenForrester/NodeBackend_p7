@@ -1,0 +1,144 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Product {
+  productId: ID!
+  productName: String!
+  productvendor: String!
+  productDescription: String!
+  quantityInStock: Int!
+  buyPrice: Int!
+  msrp: Int!
+}
+
+type OrderItem {
+  orderItemId: ID!
+  productId: String!
+  productName: String!
+  quantity: Int!
+  order: Order!
+  orderId: String!
+}
+
+type Customer {
+  customerId: ID!
+  customerName: String!
+  cemail: String!
+  phone: String!
+  address: String!
+  city: String!
+  postalCode: String!
+  country: String!
+  creationDate: DateTime!
+  modificationDate: DateTime!
+  orders: [Order!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Order {
+  orderId: ID!
+  orderDate: DateTime!
+  customerId: String!
+  customer: Customer!
+  shippingDate: DateTime!
+  status: String!
+  comments: String
+  total: Float!
+  orderItems: [OrderItem!]!
+  paid: Boolean!
+}
+
+type Query {
+  products: [Product!]!
+  product(id: String!): Product!
+  orders: [Order!]!
+  order(id: String!): Order!
+  customers: [Customer!]!
+  customer(id: String!): Customer!
+}
+
+type Mutation {
+  createProduct(createProductInput: CreateProductInput!): Product!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  removeProduct(id: String!): Product!
+  createOrder(createOrderInput: CreateOrderInput!): Order!
+  updateOrder(updateOrderInput: UpdateOrderInput!): Order!
+  removeOrder(id: String!): Order!
+  createCustomer(createCustomerInput: CreateCustomerInput!): Customer!
+  updateCustomer(updateCustomerInput: UpdateCustomerInput!): Customer!
+  removeCustomer(id: String!): Customer!
+}
+
+input CreateProductInput {
+  productId: ID
+  productName: String!
+  productvendor: String!
+  productDescription: String!
+  quantityInStock: Int!
+  buyPrice: Int!
+  msrp: Int!
+}
+
+input UpdateProductInput {
+  productId: String!
+  productName: String
+  productvendor: String
+  productDescription: String
+  quantityInStock: Int
+  buyPrice: Int
+  msrp: Int
+}
+
+input CreateOrderInput {
+  customerId: String!
+  shippingDate: DateTime
+  status: String!
+  comments: String!
+  total: Int!
+  paid: Boolean!
+  orderItems: [OrderItemInput!]!
+}
+
+input OrderItemInput {
+  orderItemId: String
+  productId: String!
+  productName: String!
+  quantity: Int!
+}
+
+input UpdateOrderInput {
+  customerId: String
+  shippingDate: DateTime
+  status: String
+  comments: String
+  total: Int
+  paid: Boolean
+  orderItems: [OrderItemInput!]
+  orderId: String!
+}
+
+input CreateCustomerInput {
+  customerName: String!
+  cemail: String!
+  phone: String!
+  address: String!
+  city: String!
+  postalCode: String!
+  country: String!
+}
+
+input UpdateCustomerInput {
+  customerName: String
+  cemail: String
+  phone: String
+  address: String
+  city: String
+  postalCode: String
+  country: String
+  customerId: String!
+}

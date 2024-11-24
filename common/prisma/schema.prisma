@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//@map can be used to map schema field to already existing database field
+model Order {
+  orderId         String    @id @default(uuid())
+  orderDate       DateTime  @default(now())
+  customerId      String
+  customer        Customer  @relation(fields: [customerId], references: [customerId])
+  shippingDate    DateTime
+  status          String
+  comments        String
+  total           Decimal   @db.Decimal(10, 2)
+  orderItems      OrderItem[]
+  paid            Boolean   @default(false)
+
+  @@index([customerId, orderDate])
+  //@@map("tablename")    ..... in case db table alreday exist
+}
+
+model OrderItem {
+  orderItemId     String       @id @default(uuid())
+  productId       String
+  productName     String
+  quantity        Int
+  orderId         String
+  order           Order        @relation(fields: [orderId], references: [orderId])
+
+  @@index([productId])
+}
+
+model Customer {
+  customerId       String      @id @default(uuid())
+  customerName     String
+  cemail           String      @unique
+  phone            String
+  address          String
+  city             String
+  postalCode       String
+  country          String
+  creationDate     DateTime    @default(now())
+  modificationDate DateTime    @updatedAt
+  orders           Order[]
+}
+
+model Product {
+  productId          String    @id @default(uuid())
+  productName        String
+  productvendor      String
+  productDescription String
+  quantityInStock    Int
+  buyPrice           Decimal   @db.Decimal(10, 2)
+  msrp               Decimal   @db.Decimal(10, 2)
+
+  @@index([productName])
+}
